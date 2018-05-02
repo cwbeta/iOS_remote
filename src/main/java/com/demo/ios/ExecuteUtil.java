@@ -47,8 +47,10 @@ public class ExecuteUtil {
 
     public void executeWDA() throws IOException, InterruptedException {
 
-        String minicapPath = PropKit.get("bashPath");
-        ProcessBuilder pb = new ProcessBuilder(minicapPath+"/execWDA.sh");
+        String bashPath = PropKit.get("bashPath");
+		String wdaPath = PropKit.get("wdaPath");
+
+        ProcessBuilder pb = new ProcessBuilder(bashPath+"/execWDA.sh", wdaPath);
         Process p = pb.start();
 //        int exitCode = p.waitFor();
 
@@ -70,7 +72,7 @@ public class ExecuteUtil {
 
         System.out.println("installing ipa..." + ipaPath);
 
-        ProcessBuilder pb = new ProcessBuilder("ideviceinstaller", "-i",ipaPath);
+        ProcessBuilder pb = new ProcessBuilder("ideviceinstaller", "-i", ipaPath);
         Process p = pb.start();
         int exitCode = p.waitFor();
         String out = getOutputString(p.getInputStream());
@@ -156,7 +158,7 @@ public class ExecuteUtil {
 
     public String getDeviceName() throws IOException, InterruptedException {
 
-        ProcessBuilder pb = new ProcessBuilder("idevicename");
+        ProcessBuilder pb = new ProcessBuilder("ideviceinfo", "-s", "-k", "DeviceName");
         Process p = pb.start();
         p.waitFor();
         return getOutputString(p.getInputStream()).trim();
@@ -164,7 +166,7 @@ public class ExecuteUtil {
     }
     public String getDeviceType() throws IOException, InterruptedException {
 
-        ProcessBuilder pb = new ProcessBuilder("ideviceinfo", "-k", "ProductType");
+        ProcessBuilder pb = new ProcessBuilder("ideviceinfo", "-s", "-k", "ProductType");
         Process p = pb.start();
         p.waitFor();
         return getOutputString(p.getInputStream()).trim();
@@ -173,7 +175,7 @@ public class ExecuteUtil {
 
     public String getDeviceVersion() throws IOException, InterruptedException {
 
-        ProcessBuilder pb = new ProcessBuilder("ideviceinfo", "-k", "ProductVersion");
+        ProcessBuilder pb = new ProcessBuilder("ideviceinfo", "-s", "-k", "ProductVersion");
         Process p = pb.start();
         p.waitFor();
         return getOutputString(p.getInputStream()).trim();

@@ -1,1 +1,1 @@
-kill -9 $(ps -ef|grep xcodebuild |awk '$0 !~/grep/ {print $2}' |tr -s '\n' ' ')
+ps -ef|grep xcodebuild|grep -v grep|cut -c 9-15|xargs kill -9
